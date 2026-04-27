@@ -1,0 +1,71 @@
+﻿@using GameZone.ViewModels.Review
+@model ReviewViewModel
+<div id="messageBox" class="mb-3"></div>
+@if (Model != null && Model.CreatedAt.HasValue)
+{
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-success mb-0">Edit Your Review</h5>
+        <small class="text-muted italic">
+            <i class="bi bi-clock-history me-1"></i>
+            Last updated: @Model.CreatedAt.Value.ToString("MMM dd, yyyy")
+        </small>
+    </div>
+}
+else
+{
+    <h5 class="text-success mb-3">Add Your Review</h5>
+}
+
+<form id="form" class="row g-3">
+    <input asp-for="GameId" type="hidden" />
+
+    <div class="col-md-4">
+        <label asp-for="Rating" class="form-label text-light small fw-bold">Rating</label>
+        <select asp-for="Rating" class="form-select bg-dark text-light border-secondary">
+            <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4">⭐⭐⭐⭐ (Great)</option>
+            <option value="3">⭐⭐⭐ (Good)</option>
+            <option value="2">⭐⭐ (Fair)</option>
+            <option value="1">⭐ (Poor)</option>
+        </select>
+        <span asp-validation-for="Rating" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Comment" class="form-label text-light small fw-bold">Comment</label>
+        <textarea asp-for="Comment" class="form-control bg-dark text-light border-secondary"
+                  rows="3" placeholder="Tell us what you think..."></textarea>
+        <span asp-validation-for="Comment" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 text-end">
+        <button onclick="SaveReview()" type="submit" class="btn btn-success px-5 fw-bold shadow-sm">
+            <i class="bi bi-send-fill me-2"></i> @(Model != null ? "Update Review" : "Submit Review")
+        </button>
+    </div>
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $("#form").submit(function (e) {
+
+    e.preventDefault(); 
+
+    $.ajax({
+    url: "/Review/AddOrUpdateReview",
+    type: "POST",
+    data: $(this).serialize(),
+
+    success: function () {
+    $("#messageBox").html(
+    "<div class='alert alert-success'>Review submitted successfully!</div>"
+    );
+    },
+
+    error: function () {
+    $("#messageBox").html(
+    "<div class='alert alert-danger'>An error occurred. Try again.</div>"
+    );
+    }
+    });
+    });
+</script>

@@ -1,0 +1,155 @@
+﻿@using GameZone.Settings
+@using GameZone.ViewModels.Game
+@model List<GetAllGames>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-dismissible alert-warning">
+        <h4 class="alert-heading">Warning!</h4>
+        <p class="mb-0">NO Games</p>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="container py-4">
+    <div class="row g-4">
+
+        @foreach (var game in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                <a asp-controller="Games"
+                       asp-action="Details"
+                       asp-route-id="@game.Id"
+                       class="text-decoration-none">
+
+                    <div class="game-card">
+
+                        <!-- Image -->
+                        <div class="game-img">
+                            <img src="@Url.Content($"~/{FileSettings.ImagesPath}/{game.Cover}")" />
+
+                            <!-- Category فوق الصورة -->
+                            <span class="game-category-badge">
+                                @game.CategoryName
+                            </span>
+                        </div>
+
+                        <!-- Bottom Overlay -->
+                        <div class="game-overlay">
+
+                            <div class="game-title">
+                                @game.Name
+                            </div>
+
+                            <div class="game-icons">
+                                @foreach (var icon in game.DeviceNames)
+                                {
+                                    <i class="@icon"></i>
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+        }
+
+    </div>
+</div>
+
+<style>
+    /* Background */
+    body {
+        background: radial-gradient(circle at top, #1a0033, #0a001a);
+    }
+
+    /* Card */
+    .game-card {
+        border: 2px solid #00ff99;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        transition: 0.3s;
+        box-shadow: 0 0 10px rgba(0,255,153,0.3);
+    }
+
+        .game-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 25px rgba(0,255,153,0.8);
+        }
+
+    /* Image */
+    .game-img {
+        position: relative;
+    }
+
+        .game-img img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+    /* Category Badge (زي الصورة بالظبط) */
+    .game-category-badge {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        background: #ff4da6;
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(255, 77, 166, 0.6);
+    }
+
+    /* Bottom Overlay */
+    .game-overlay {
+        background: rgba(10, 10, 30, 0.95);
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 2px solid #00ff99;
+    }
+
+    /* Title */
+    .game-title {
+        color: #00ff99;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* Icons */
+    .game-icons i {
+        color: #00c3ff;
+        margin-left: 8px;
+        font-size: 16px;
+        transition: 0.2s;
+    }
+
+        .game-icons i:hover {
+            color: #00ff99;
+            transform: scale(1.2);
+        }
+</style>

@@ -1,0 +1,176 @@
+﻿/* ================= GENERAL ================= */
+
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #120024, #2b0050);
+    color: #fff;
+}
+
+
+/* ================= FOCUS ================= */
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 5px white, 0 0 10px #00cfff;
+}
+
+
+/* ================= CARD ================= */
+
+.main-card {
+    background: #1e0033;
+    border-radius: 15px;
+}
+
+
+/* ================= INPUTS ================= */
+
+.custom-input {
+    background-color: #2b0a4a;
+    color: #fff;
+    border: 1px solid #4e1a91;
+}
+
+    .custom-input::placeholder {
+        color: #bbb;
+    }
+
+    .custom-input:focus {
+        box-shadow: 0 0 10px #00cfff;
+        border-color: #00cfff;
+    }
+
+
+/* ================= TEXT ================= */
+
+.line {
+    border-color: #00cfff;
+}
+
+
+/* ================= IMAGE PREVIEW ================= */
+
+#Cover-Preview,
+#Image-Preview {
+    width: 100%;
+    min-height: 300px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center; /* أفقي */
+    align-items: center; /* رأسي */
+}
+
+/* الصورة نفسها */
+.cover-preview {
+    max-width: 90%;
+    max-height: 300px;
+    border-radius: 12px;
+    border: 2px solid #00cfff;
+    padding: 5px;
+    background: #111;
+    object-fit: contain; /* مهم جدًا بدل cover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    /* hover effect */
+    .cover-preview:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 15px #00cfff;
+    }
+
+
+/* ================= BUTTONS ================= */
+
+.btn-info {
+    background-color: #00cfff;
+    border: none;
+}
+
+    .btn-info:hover {
+        background-color: #00aacc;
+    }
+
+
+/* ================= FORM FLOATING ================= */
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: #aaa;
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+
+/* ================= SELECT2 ================= */
+
+body .select2-container--default .select2-selection--single,
+body .select2-container--default .select2-selection--multiple {
+    background-color: #30115e !important;
+    border: 1px solid #4e1a91 !important;
+    border-radius: 4px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+body .select2-container--default .select2-selection__rendered,
+body .select2-container--default .select2-selection__placeholder {
+    color: #fff !important;
+}
+
+body .select2-dropdown {
+    background-color: #30115e !important;
+    border: 1px solid #4e1a91 !important;
+    color: #fff !important;
+    z-index: 9999;
+}
+
+body .select2-results__option {
+    background-color: #30115e !important;
+    color: #fff !important;
+}
+
+body .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #4e1a91 !important;
+    color: #fff !important;
+}
+
+body .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #fff transparent transparent transparent !important;
+}
+
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e0033;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00cfff;
+    border-radius: 10px;
+}

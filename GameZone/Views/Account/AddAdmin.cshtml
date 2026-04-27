@@ -1,0 +1,107 @@
+﻿@using GameZone.Settings
+@model GameZone.ViewModels.User.RegisterationViewModel
+
+@{
+    ViewData["Title"] = "AddAdmin";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 main-card">
+        <div class="card-body p-4">
+
+            <h3 class="text-info mb-4">Create Account</h3>
+            <hr class="line" />
+
+            <div class="row">
+
+                <!-- LEFT FORM -->
+                <div class="col-md-6">
+                    <form asp-action="AddAdmin" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label text-light"></label>
+                            <input asp-for="FullName" class="form-control custom-input" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label text-light"></label>
+                            <input asp-for="PhoneNumber" class="form-control custom-input" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label text-light"></label>
+                            <input asp-for="Address" class="form-control custom-input" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label text-light"></label>
+                            <input asp-for="Email" class="form-control custom-input" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label text-light"></label>
+                            <input asp-for="Password" type="password" class="form-control custom-input" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="mb-3">
+                            <label asp-for="ImageUrl" class="form-label text-light"></label>
+
+                            <input asp-for="ImageUrl" type="file"
+                                   class="form-control custom-input"
+                                   id="ImageInput"
+                                   data-rule-extension="@FileSettings.AllowedExtensions.Replace(".", string.Empty)"
+                                   data-msg-extension="This Extension is not allowed"
+                                   data-rule-filesize="@FileSettings.MaxSizeInBytes"
+                                   data-msg-filesize="Maximum allowed size is @FileSettings.MaxSizeInMB MB" />
+
+                            <small class="text-info">
+                                Only @FileSettings.AllowedExtensions files (Max 1MB)
+                            </small>
+
+                            <span asp-validation-for="ImageUrl" class="text-danger d-block"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-info px-4">Register</button>
+                            <a asp-action="Login" class="btn btn-outline-light">Back</a>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- RIGHT IMAGE PREVIEW (FIXED) -->
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+
+                    <div id="Image-Preview" class="d-none w-100 d-flex justify-content-center align-items-center">
+
+                        <img id="PreviewImage"
+                             class="img-fluid cover-preview"
+                             alt="Preview" />
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filesize-validator.js"></script>
+    <script src="~/js/register-form.js"></script>
+}

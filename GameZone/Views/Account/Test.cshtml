@@ -1,0 +1,7 @@
+﻿@using System.Security.Claims
+<p>@User.Identity.Name</p>
+<p>@User.FindFirst("FullName")?.Value</p>
+<p>@User.FindFirst("ImageUrl")?.Value</p>
+<p>@User.FindFirst(ClaimTypes.NameIdentifier)?.Value</p>
+<p>@User.FindFirst(ClaimTypes.Role)?.Value</p>
+<p>@User.FindFirst(ClaimTypes.Email)?.Value</p>

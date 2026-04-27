@@ -1,0 +1,125 @@
+﻿@using GameZone.Settings
+@using GameZone.ViewModels.Game
+@model GetGameDetails
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<link href="~/css/gamedetails.css" rel="stylesheet" />
+
+<div class="container py-5">
+    <div class="game-details-card mb-5 shadow-lg">
+        <div class="row g-0 align-items-stretch">
+            
+            <div class="col-md-7 p-4 p-lg-5 d-flex flex-column">
+                <h1 class="display-4 fw-bold text-success mb-3">
+                    @Model.Name
+                </h1>
+                
+                <div class="mb-3">
+                    <span class="badge bg-primary px-3 py-2 fs-6 rounded-pill">
+                        <i class="bi bi-tag-fill me-1"></i> @Model.CategoryName
+                    </span>
+                </div>
+
+                <div class="mb-4 d-flex align-items-center">
+                    @if (Model.AverageCount > 0)
+                    {
+                        var rounded = Math.Round(Model.AverageRating * 2) / 2;
+                        var fullStars = (int)Math.Floor(rounded);
+                        var hasHalfStar = (rounded - fullStars) == 0.5;
+                        var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+                        <div class="text-warning fs-4 me-3">
+                            @for (int i = 0; i < fullStars; i++)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            @if (hasHalfStar)
+                            {
+                                <i class="bi bi-star-half"></i>
+                            }
+                            @for (int i = 0; i < emptyStars; i++)
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-white fw-bold fs-5 lh-1">@Model.AverageRating.ToString("0.0") / 5</span>
+                            <span class="text-muted small">(@Model.AverageCount Reviews)</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-muted italic"><i class="bi bi-star me-1"></i>No reviews yet</span>
+                    }
+                </div>
+
+                <p class="lead text-light mb-4">
+                    @Model.Description
+                </p>
+
+                <div class="game-devices mb-5 fs-3 text-success">
+                    @foreach (var icon in Model.DeviceNames)
+                    {
+                        <i class="@icon me-3" title="Available on this device"></i>
+                    }
+                </div>
+
+                <div class="border-top border-secondary pt-4 mt-auto">
+                    <a asp-action="AllReviewsForGame"
+                           asp-controller="Review"
+                           asp-route-gameId="@Model.GameId"
+                           class="btn btn-outline-success btn-lg rounded-pill px-4 hover-lift">
+                        <i class="bi bi-chat-left-text-fill me-2"></i>
+                        View Community Reviews
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-5 image-column">
+                <div class="poster-wrapper">
+                    <img src="@($"/{FileSettings.ImagesPath}/{Model.Cover}")"
+                         class="img-fluid"
+                         alt="@Model.Name" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="review-section shadow-lg p-5">
+                    <div class="d-flex align-items-center mb-4 border-bottom border-secondary pb-3">
+                        <div class="bg-success p-2 rounded-3 me-3">
+                            <i class="bi bi-pencil-square text-white fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 text-white fw-bold">Share Your Experience</h3>
+                    </div>
+                    
+                    <partial name="~/Views/Review/_CreateOrUpdateReviewPartial.cshtml" model="Model.UserReview" />
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-dark border-warning text-center mt-4 p-5 shadow-sm rounded-4">
+                    <i class="bi bi-exclamation-triangle-fill text-warning display-4 d-block mb-3"></i>
+                    <p class="fs-5 text-light mb-3">Want to share your thoughts?</p>
+                    <a href="/Auth/Login" class="btn btn-warning fw-bold px-4 rounded-pill">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Login to Write a Review
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

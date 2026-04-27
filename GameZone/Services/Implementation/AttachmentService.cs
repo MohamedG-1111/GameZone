@@ -1,0 +1,38 @@
+﻿using GameZone.Services.Interfaces;
+using GameZone.Settings;
+
+namespace GameZone.Services.Implementation
+{
+    public class AttachmentService : IAttachmentService
+    {
+        private readonly IWebHostEnvironment _environment;
+
+        public AttachmentService(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
+
+        public async Task DeleteAttachmentAsync(string fileName)
+        {
+            var path = Path.Combine(_environment.WebRootPath, FileSettings.ImagesPath, fileName);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        public async Task<string> UploadAttachmentAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return null;
+            }
+            var CoverName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var FullPath = Path.Combine(_environment.WebRootPath, FileSettings.ImagesPath, CoverName);
+            using var stream = new FileStream(FullPath, FileMode.Create);
+            await file.CopyToAsync(stream);
+            return CoverName;
+        }
+    }
+}

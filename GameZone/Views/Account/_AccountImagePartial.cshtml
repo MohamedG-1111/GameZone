@@ -1,0 +1,63 @@
+﻿@using GameZone.Settings
+
+<form asp-action="EditProfileImage"
+      method="post"
+      enctype="multipart/form-data">
+
+    <!-- PROFILE IMAGE -->
+    @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+    {
+        <img id="profileImg"
+             src="/@FileSettings.ImagesPath/@Model.ExistingImageUrl"
+             class="profile-img mb-3"
+             alt="Profile Image"
+             style="cursor:pointer;" />
+    }
+    else
+    {
+        <img id="profileImg"
+             src="/images/default-user.png"
+             class="profile-img mb-3"
+             alt="Default Avatar"
+             style="cursor:pointer;" />
+    }
+
+    <!-- HIDDEN INPUT -->
+    <input type="file"
+           name="ImageUrl"
+           id="imageInput"
+           class="d-none" />
+
+    <!-- SAVE BUTTON -->
+    <button type="submit"
+            class="btn btn-success w-100 mt-2">
+        <i class="fas fa-upload me-2"></i>
+        Change Image
+    </button>
+
+</form>
+
+<!-- SCRIPT -->
+<script>
+    const imageInput = document.getElementById("imageInput");
+    const profileImg = document.getElementById("profileImg");
+
+    profileImg.addEventListener("click", function () {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener("change", function (event) {
+
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                profileImg.src = e.target.result; 
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

@@ -1,0 +1,56 @@
+﻿/* Game Details Main Card */
+.game-details-card {
+    background: rgba(15, 15, 15, 0.95);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Image Column Styling */
+.image-column {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 500px;
+}
+
+/* Poster Wrapper to prevent pixelation */
+.poster-wrapper {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s ease;
+}
+
+    .poster-wrapper img {
+        max-height: 500px;
+        width: auto;
+        object-fit: contain; /* Keeps original aspect ratio */
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .poster-wrapper:hover {
+        transform: scale(1.03);
+    }
+
+/* Interaction Effects */
+.hover-lift {
+    transition: all 0.3s ease-in-out;
+}
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 255, 153, 0.2) !important;
+        background-color: #198754 !important;
+        color: white !important;
+    }
+
+/* Reviews Section */
+.review-section {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 153, 0.1);
+    border-radius: 15px;
+}

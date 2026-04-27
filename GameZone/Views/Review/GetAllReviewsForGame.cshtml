@@ -1,0 +1,62 @@
+﻿@using GameZone.Settings
+@using GameZone.ViewModels.Review
+@model List<GetAllReviewsForGame>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-5 border-bottom border-secondary pb-3">
+                <h2 class="text-success fw-bold mb-0">Community Reviews</h2>
+                <a href="javascript:history.back()" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                    <i class="bi bi-arrow-left me-1"></i> Back
+                </a>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var review in Model)
+                {
+                    <div class="card mb-4 border-secondary shadow-sm" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 255, 153, 0.2); border-radius: 12px;">
+                        <div class="card-body p-4">
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="@Url.Content($"~/{FileSettings.ImagesPath}/{review.UserImage}")"
+                                     class="rounded-circle border border-success"
+                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                     alt="@review.UserName" />
+                                
+                                <div class="ms-3 flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h6 class="mb-0 text-info fw-bold">@review.UserName</h6>
+                                        <small class="text-muted" style="font-size: 0.8rem;">
+                                            <i class="bi bi-calendar3 me-1"></i>
+                                            @(review.CreatedAt.HasValue? review.CreatedAt.Value.ToString("MMM dd, yyyy") : "No date")
+                                        </small>
+                                    </div>
+                                    <div class="text-warning small">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="card-text text-light-50 fs-5 mt-3" style="line-height: 1.6; opacity: 0.9;">
+                                @review.Comment
+                            </p>
+
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-chat-dots display-1 d-block mb-3 opacity-25"></i>
+                    <p class="fs-4">No reviews yet. Be the first to share your thoughts!</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

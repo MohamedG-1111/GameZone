@@ -1,0 +1,61 @@
+﻿@using GameZone.Settings
+@using GameZone.ViewModels.Game
+@model List<GetAllGames>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="container py-4">
+
+    <!-- Add Button -->
+    <a asp-action="Create" class="btn btn-danger mb-4">
+        <i class="bi bi-plus-circle-dotted me-1"></i> Add Game
+    </a>
+
+    <!-- List -->
+    <div class="border border-success rounded shadow-sm">
+
+        @foreach (var game in Model)
+        {
+            <div class="d-flex align-items-center justify-content-between p-3 border-bottom border-success">
+
+                <!-- Image -->
+                <img src="@Url.Content($"~/{FileSettings.ImagesPath}/{game.Cover}")"
+                     class="rounded"
+                     style="width:70px; height:90px; object-fit:cover;" />
+
+                <!-- Info -->
+                <div class="flex-grow-1 ms-3">
+                    <div class="fw-bold text-info fs-5">
+                        @game.Name
+                    </div>
+                    <div class="text-secondary small">
+                        @game.CategoryName
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex gap-2">
+
+                    <a asp-action="Edit" asp-route-id="@game.Id"
+                           class="btn btn-info text-white">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@game.Id"
+                           class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>

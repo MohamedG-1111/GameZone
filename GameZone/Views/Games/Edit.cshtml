@@ -1,0 +1,71 @@
+﻿@using GameZone.Settings
+@using GameZone.ViewModels.Game
+@model EditGameViwModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h5>Edit Game</h5>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <select asp-for="CategoryId" class="form-control"
+                    data-placeholder="Select Category"
+                    data-minimum-results-for-search="Infinity"
+                    asp-items="Model.Categories">
+                <option></option>
+            </select>
+
+            <div class="form-group mb-3">
+                <label asp-for="SelectedDevices" class="control-label"></label>
+                <select asp-for="SelectedDevices" data-placeholder="SelectedDevices" class="form-control" multiple asp-items="Model.Devices">
+                </select>
+                <span asp-validation-for="SelectedDevices" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Cover" class="control-label"></label>
+                <input asp-for="Cover" type="file" class="form-control"
+                       data-rule-extension="@FileSettings.AllowedExtensions.Replace(".", string.Empty)"
+                       data-msg-extension="This Extension is not allowed"
+                       data-rule-filesize="@FileSettings.MaxSizeInBytes"
+                       data-msg-filesize="Maximum allowed size is @FileSettings.MaxSizeInMB MB" />
+                <small class="form-text text-muted">Only @FileSettings.AllowedExtensions files are allowed (Max size 1MB)</small>
+                <span asp-validation-for="Cover" class="text-danger d-block"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-light">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6 pt-4">
+        <div id="Cover-Preview" >
+            <img class="cover-preview" alt="Cover" src="@Url.Content($"~/{FileSettings.ImagesPath}/{Model.ExistingCover}")" />
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script src="~/js/filesize-validator.js"></script>
+        <script src="~/js/game-form.js"></script>
+    }
