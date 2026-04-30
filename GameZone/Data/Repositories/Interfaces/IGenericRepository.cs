@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace GameZone.Data.Repositories
+namespace GameZone.Data.Repositories.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

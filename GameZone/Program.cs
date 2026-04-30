@@ -1,4 +1,6 @@
 using GameZone.Data;
+using GameZone.Data.Repositories.ImPlmentation;
+using GameZone.Data.Repositories.Interfaces;
 using GameZone.Helpler;
 using GameZone.Models;
 using GameZone.Services.Implementation;
@@ -31,6 +33,8 @@ namespace GameZone
             builder.Services.AddScoped<ICurrentUserServices, CurrentUserServices>();
             builder.Services.AddScoped<IReviewServices, ReviewServices>();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             var app = builder.Build();

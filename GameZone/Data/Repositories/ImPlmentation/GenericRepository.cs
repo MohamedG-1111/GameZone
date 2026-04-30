@@ -1,7 +1,8 @@
 ﻿using System.Linq.Expressions;
+using GameZone.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameZone.Data.Repositories
+namespace GameZone.Data.Repositories.ImPlmentation
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
