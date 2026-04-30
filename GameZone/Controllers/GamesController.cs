@@ -120,9 +120,9 @@ namespace GameZone.Controllers
         }
 
 
-        public IActionResult CheckName(string Name)
+        public async Task<IActionResult> CheckName(string Name)
         {
-            var IsExisted = _gameService.CheckName(Name);
+            var IsExisted = await _gameService.CheckNameAsync(Name);
             return Json(!IsExisted);
         }
     }

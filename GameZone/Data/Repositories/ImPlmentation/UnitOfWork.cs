@@ -31,7 +31,7 @@ namespace GameZone.Data.Repositories.ImPlmentation
             return newRepo;
         }
 
-        public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
+        public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 
 
     }

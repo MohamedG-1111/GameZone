@@ -10,6 +10,7 @@ namespace GameZone.Data.Repositories.Interfaces
 
 
         public Task<T?> GetByIdAsync(int id);
+        public Task<T?> FindAsync(int id);
 
         public void Update(T entity);
 

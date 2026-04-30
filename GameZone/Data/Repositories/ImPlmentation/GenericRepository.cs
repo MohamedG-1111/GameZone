@@ -76,6 +76,9 @@ namespace GameZone.Data.Repositories.ImPlmentation
             return noTracking ? query.AsNoTracking() : query;
         }
 
-
+        public async Task<T?> FindAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
     }
 }

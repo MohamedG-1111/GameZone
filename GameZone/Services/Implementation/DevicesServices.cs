@@ -1,21 +1,21 @@
-﻿using GameZone.Data;
+﻿using GameZone.Data.Repositories.Interfaces;
+using GameZone.Models;
 using GameZone.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameZone.Services.Implementation
 {
     public class DevicesServices : IDevicesServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DevicesServices(ApplicationDbContext context)
+        public DevicesServices(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
         public IEnumerable<SelectListItem> Devices()
         {
-            return _context.Devices.AsNoTracking().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name })
+            return _unitOfWork.Repository<Device>().GetAsQuery().Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name })
                 .OrderBy(c => c.Text).ToList();
         }
     }

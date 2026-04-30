@@ -1,4 +1,4 @@
-﻿using GameZone.Data;
+﻿using GameZone.Data.Repositories.Interfaces;
 using GameZone.Models;
 using GameZone.Services.Interfaces;
 using GameZone.ViewModels.Game;
@@ -9,20 +9,20 @@ namespace GameZone.Services.Implementation
 {
     public class GameService : IGameService
     {
-        private readonly ApplicationDbContext context;
         private readonly IAttachmentService attachmentService;
         private readonly ICategoryServices _categoryServices;
         private readonly IDevicesServices _devicesServices;
         private readonly IReviewServices reviewServic;
         private readonly ICurrentUserServices currentUserService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GameService(ApplicationDbContext context, IAttachmentService attachmentService,
+        public GameService(IUnitOfWork unitOfWork, IAttachmentService attachmentService,
             ICategoryServices categoryServices,
             IDevicesServices devicesServices,
             IReviewServices reviewServic,
             ICurrentUserServices currentUserService)
         {
-            this.context = context;
+            _unitOfWork = unitOfWork;
             this.attachmentService = attachmentService;
             _categoryServices = categoryServices;
             _devicesServices = devicesServices;
@@ -31,7 +31,7 @@ namespace GameZone.Services.Implementation
         }
         public async Task<List<GetAllGames>> GetAllGamesAsync()
         {
-            return await context.Games
+            return await _unitOfWork.Repository<Game>().GetAsQuery()
                 .Select(g => new GetAllGames
                 {
                     Id = g.Id,
@@ -46,7 +46,7 @@ namespace GameZone.Services.Implementation
         {
 
 
-            var game = await context.Games
+            var game = await _unitOfWork.Repository<Game>().GetAsQuery()
           .Where(g => g.Id == Id)
           .Select(g => new GetGameDetails
           {
@@ -97,8 +97,9 @@ namespace GameZone.Services.Implementation
                    : null,
                 Gamedevices = model.SelectedDevices?.Select(d => new Gamedevice { DeviceId = d }).ToList()!
             };
-            context.Games.Add(Game);
-            await context.SaveChangesAsync();
+            var repo = _unitOfWork.Repository<Game>();
+            await repo.AddAsync(Game);
+            await _unitOfWork.SaveChangesAsync();
         }
 
 
@@ -108,7 +109,7 @@ namespace GameZone.Services.Implementation
             {
                 throw new ArgumentException("Invalid game ID.", nameof(Id));
             }
-            return await context.Games
+            return await _unitOfWork.Repository<Game>().GetAsQuery()
                 .Where(g => g.Id == Id)
                 .Select(g => new EditGameViwModel
                 {
@@ -125,10 +126,10 @@ namespace GameZone.Services.Implementation
         }
         public async Task<bool> EditGameAsync(int Id, EditGameViwModel model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
             try
             {
-                var Game = await context.Games
+                var Game = await _unitOfWork.Repository<Game>().GetAsQuery()
                .Include(g => g.Gamedevices)
                 .FirstOrDefaultAsync(g => g.Id == Id);
                 if (Game == null) return false;
@@ -143,7 +144,7 @@ namespace GameZone.Services.Implementation
                 Game.Gamedevices = model.SelectedDevices.Select(d => new Gamedevice { DeviceId = d }).ToList();
 
 
-                await context.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
                 await transaction.CommitAsync();
 
                 return true;
@@ -163,10 +164,11 @@ namespace GameZone.Services.Implementation
             {
                 throw new ArgumentException("Invalid game ID.", nameof(Id));
             }
-            var Game = await context.Games.FindAsync(Id);
+            var repo = _unitOfWork.Repository<Game>();
+            var Game = await repo.FindAsync(Id);
             if (Game == null) return false;
-            context.Games.Remove(Game);
-            var IsDeleted = await context.SaveChangesAsync();
+            repo.Delete(Game);
+            var IsDeleted = await _unitOfWork.SaveChangesAsync();
             if (IsDeleted > 0)
                 await attachmentService.DeleteAttachmentAsync(Game.Cover);
             return IsDeleted > 0;
@@ -174,12 +176,12 @@ namespace GameZone.Services.Implementation
 
         public Task<Game?> GetGameByIdAsync(int Id)
         {
-            return context.Games.FirstOrDefaultAsync(g => g.Id == Id);
+            return _unitOfWork.Repository<Game>().GetAsQuery().FirstOrDefaultAsync(g => g.Id == Id);
         }
 
-        public bool CheckName(string Name)
+        public async Task<bool> CheckNameAsync(string Name)
         {
-            var IsExisted = context.Games.Any(g => g.Name.ToLower() == Name.ToLower());
+            var IsExisted = await _unitOfWork.Repository<Game>().AnyAsync(g => g.Name.ToLower() == Name.ToLower());
             return IsExisted;
         }
     }

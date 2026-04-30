@@ -6,7 +6,7 @@ namespace GameZone.Data.Repositories.Interfaces
     {
         public IGenericRepository<T> Repository<T>() where T : class;
 
-        public Task<int> SaveAsync();
+        public Task<int> SaveChangesAsync();
 
         public Task<IDbContextTransaction> BeginTransactionAsync();
 

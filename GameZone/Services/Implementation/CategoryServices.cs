@@ -1,22 +1,22 @@
-﻿using GameZone.Data;
+﻿using GameZone.Data.Repositories.Interfaces;
+using GameZone.Models;
 using GameZone.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameZone.Services.Implementation
 {
     public class CategoryServices : ICategoryServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryServices(ApplicationDbContext context)
+        public CategoryServices(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<SelectListItem> Categories()
         {
-            return _context.Categories.AsNoTracking().Select(c => new SelectListItem
+            return _unitOfWork.Repository<Category>().GetAsQuery().Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
                 Text = c.Name

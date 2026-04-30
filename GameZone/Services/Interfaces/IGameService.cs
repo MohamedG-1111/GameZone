@@ -14,6 +14,6 @@ namespace GameZone.Services.Interfaces
 
         public Task<bool> DeleteGameAsync(int Id);
 
-        public bool CheckName(string Name);
+        Task<bool> CheckNameAsync(string Name);
     }
 }
