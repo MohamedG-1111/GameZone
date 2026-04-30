@@ -1,6 +1,7 @@
 # 🎮 GameZone
 
-GameZone is a scalable web-based gaming platform built with **ASP.NET Core MVC** that allows users to explore games, write reviews, and interact with game content. The system also provides a powerful **Admin Dashboard** for managing games and administrators.
+GameZone is a web-based gaming platform built using **ASP.NET Core MVC**.
+It allows users to explore games, write reviews, and interact with game content, while providing an **Admin Dashboard** for managing the system.
 
 ---
 
@@ -9,36 +10,66 @@ GameZone is a scalable web-based gaming platform built with **ASP.NET Core MVC**
 ### 👨‍💼 Admin Panel
 
 * Full **CRUD Operations** for Games
-* Upload game images with validation
-* Manage Admin accounts
-* Control system access using role-based authorization
+* Upload and manage game images
+* Add and manage Admin users
+* Secure access using role-based authorization
 
 ---
 
 ### 👤 User Features
 
-* Browse all available games
+* Browse available games
 * View game details
-* Add and view reviews
-* Explore feedback from other users
+* Add reviews to games
+* View all reviews for each game
 
 ---
 
-## 🧠 Architecture & Design Patterns
+## 🧠 Architecture & Design
 
-The project is designed using clean architecture principles:
+The project is built using the **ASP.NET Core MVC pattern**.
 
-* **Generic Repository Pattern**
-  Abstracts data access logic and promotes reusability
+It also incorporates the following design patterns and practices:
 
-* **Unit of Work Pattern**
-  Ensures consistency across multiple database operations
+* **Generic Repository Pattern** → for reusable data access logic
+* **Unit of Work Pattern** → to manage transactions efficiently
+* **Service Layer** → to handle business logic and keep controllers clean
+* **Custom Validation Attributes** → for handling file validation
 
-* **Service Layer**
-  Handles business logic separately from controllers
+---
 
-* **ASP.NET Identity**
-  Provides secure authentication & role-based authorization
+## 🧩 Custom Validation
+
+The project includes custom attributes for validating uploaded files:
+
+### 📁 AllowedExtensions
+
+Restricts file uploads to specific extensions.
+
+```csharp
+[AllowedExtensions(".jpg,.png")]
+public IFormFile Image { get; set; }
+```
+
+---
+
+### 📏 MaxSizeAllowed
+
+Limits the maximum file size.
+
+```csharp
+[MaxSizeAllowed(2 * 1024 * 1024)] // 2MB
+public IFormFile Image { get; set; }
+```
+
+---
+
+## ⚡ AJAX Integration
+
+The project uses **jQuery AJAX** to:
+
+* Submit reviews without reloading the page
+* Improve responsiveness and user experience
 
 ---
 
@@ -50,52 +81,6 @@ The project is designed using clean architecture principles:
 * ASP.NET Identity
 * jQuery & AJAX
 * Bootstrap
-
----
-
-## ⚡ AJAX Integration
-
-AJAX is used to:
-
-* Submit reviews without reloading the page
-* Fetch dynamic data
-* Improve user experience
-
----
-
-## 🧩 Custom Validation Attributes
-
-The system includes **custom validation attributes** for handling file uploads:
-
-### 📁 AllowedExtensions Attribute
-
-* Restricts uploaded files to specific extensions
-* Prevents unsupported file types
-
-```csharp
-[AllowedExtensions(".jpg,.png")]
-public IFormFile Image { get; set; }
-```
-
----
-
-### 📏 MaxSizeAllowed Attribute
-
-* Limits file size for uploads
-* Prevents large file submissions
-
-```csharp
-[MaxSizeAllowed(2 * 1024 * 1024)] // 2MB
-public IFormFile Image { get; set; }
-```
-
----
-
-### ✅ Benefits
-
-* Enhances security
-* Improves validation at the model level
-* Keeps controllers clean
 
 ---
 
@@ -125,13 +110,13 @@ GameZone
 
 ## 🔄 System Workflow
 
-1. Admin logs in
-2. Admin adds/updates games
+1. Admin logs into the system
+2. Admin manages games and admins
 3. Images are validated using custom attributes
-4. User logs in
+4. User registers / logs in
 5. User browses games
-6. User submits reviews via AJAX
-7. Reviews are stored and displayed instantly
+6. User submits reviews using AJAX
+7. Reviews are saved and displayed dynamically
 
 ---
 
@@ -145,18 +130,18 @@ GameZone
 
 ---
 
-## 📌 Future Enhancements
+## 📌 Future Improvements
 
-* Real-time features using SignalR
-* Game rating system ⭐
-* Advanced filtering & search
-* API integration
+* Add real-time features using SignalR
+* Implement game rating system ⭐
+* Improve UI/UX
+* Add advanced search and filtering
 
 ---
 
 ## 🤝 Contribution
 
-Contributions are welcome! Feel free to fork and submit pull requests.
+Feel free to fork the repository and submit pull requests.
 
 ---
 
