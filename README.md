@@ -1,12 +1,12 @@
-# 🎮ة GameZone
+# 🎮 GameZone
 
 GameZone is a scalable web-based gaming platform built with **ASP.NET Core MVC** that allows users to explore games, write reviews, and interact with game content. The system also provides a powerful **Admin Dashboard** for managing games and administrators.
 
 ---
 
-##  Features
+## 🚀 Features
 
-###  Admin Panel
+### 👨‍💼 Admin Panel
 
 * Full **CRUD Operations** for Games
 * Upload game images with validation
@@ -15,7 +15,7 @@ GameZone is a scalable web-based gaming platform built with **ASP.NET Core MVC**
 
 ---
 
-###  User Features
+### 👤 User Features
 
 * Browse all available games
 * View game details
@@ -24,7 +24,7 @@ GameZone is a scalable web-based gaming platform built with **ASP.NET Core MVC**
 
 ---
 
- Architecture & Design Patterns
+## 🧠 Architecture & Design Patterns
 
 The project is designed using clean architecture principles:
 
